@@ -42,17 +42,6 @@ export async function getUserLinks(userId: string, filters?: QueryFilters) {
   );
 }
 
-export async function getTeamLinks(teamId: string, filters?: QueryFilters) {
-  return getLinks(
-    {
-      where: {
-        teamId,
-      },
-    },
-    filters,
-  );
-}
-
 export async function createLink(data: Prisma.LinkUncheckedCreateInput) {
   return prisma.client.link.create({ data });
 }

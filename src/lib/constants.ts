@@ -5,7 +5,6 @@ export const TIMEZONE_CONFIG = 'umami.timezone';
 export const DATE_RANGE_CONFIG = 'umami.date-range';
 export const THEME_CONFIG = 'umami.theme';
 export const DASHBOARD_CONFIG = 'umami.dashboard';
-export const LAST_TEAM_CONFIG = 'umami.last-team';
 export const VERSION_CHECK = 'umami.version-check';
 export const SHARE_TOKEN_HEADER = 'x-umami-share-token';
 export const HOMEPAGE_URL = 'https://umami.is';
@@ -130,10 +129,6 @@ export const ROLES = {
   admin: 'admin',
   user: 'user',
   viewOnly: 'view-only',
-  teamOwner: 'team-owner',
-  teamManager: 'team-manager',
-  teamMember: 'team-member',
-  teamViewOnly: 'team-view-only',
 } as const;
 
 export const PERMISSIONS = {
@@ -141,44 +136,12 @@ export const PERMISSIONS = {
   websiteCreate: 'website:create',
   websiteUpdate: 'website:update',
   websiteDelete: 'website:delete',
-  websiteTransferToTeam: 'website:transfer-to-team',
-  websiteTransferToUser: 'website:transfer-to-user',
-  teamCreate: 'team:create',
-  teamUpdate: 'team:update',
-  teamDelete: 'team:delete',
 } as const;
 
 export const ROLE_PERMISSIONS = {
   [ROLES.admin]: [PERMISSIONS.all],
-  [ROLES.user]: [
-    PERMISSIONS.websiteCreate,
-    PERMISSIONS.websiteUpdate,
-    PERMISSIONS.websiteDelete,
-    PERMISSIONS.teamCreate,
-  ],
+  [ROLES.user]: [PERMISSIONS.websiteCreate, PERMISSIONS.websiteUpdate, PERMISSIONS.websiteDelete],
   [ROLES.viewOnly]: [],
-  [ROLES.teamOwner]: [
-    PERMISSIONS.teamUpdate,
-    PERMISSIONS.teamDelete,
-    PERMISSIONS.websiteCreate,
-    PERMISSIONS.websiteUpdate,
-    PERMISSIONS.websiteDelete,
-    PERMISSIONS.websiteTransferToTeam,
-    PERMISSIONS.websiteTransferToUser,
-  ],
-  [ROLES.teamManager]: [
-    PERMISSIONS.teamUpdate,
-    PERMISSIONS.websiteCreate,
-    PERMISSIONS.websiteUpdate,
-    PERMISSIONS.websiteDelete,
-    PERMISSIONS.websiteTransferToTeam,
-  ],
-  [ROLES.teamMember]: [
-    PERMISSIONS.websiteCreate,
-    PERMISSIONS.websiteUpdate,
-    PERMISSIONS.websiteDelete,
-  ],
-  [ROLES.teamViewOnly]: [],
 } as const;
 
 export const THEME_COLORS = {

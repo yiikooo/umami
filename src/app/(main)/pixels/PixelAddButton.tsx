@@ -3,7 +3,7 @@ import { Plus } from '@/components/icons';
 import { DialogButton } from '@/components/input/DialogButton';
 import { PixelEditForm } from './PixelEditForm';
 
-export function PixelAddButton({ teamId }: { teamId?: string }) {
+export function PixelAddButton() {
   const { formatMessage, labels } = useMessages();
 
   return (
@@ -13,7 +13,7 @@ export function PixelAddButton({ teamId }: { teamId?: string }) {
       variant="primary"
       width="600px"
     >
-      {({ close }) => <PixelEditForm teamId={teamId} onClose={close} />}
+      {({ close }) => <PixelEditForm onClose={close} />}
     </DialogButton>
   );
 }

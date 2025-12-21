@@ -3,7 +3,7 @@ import { uuid } from '@/lib/crypto';
 import { getQueryFilters, parseRequest } from '@/lib/request';
 import { json, unauthorized } from '@/lib/response';
 import { pagingParams, searchParams } from '@/lib/schema';
-import { canCreateTeamWebsite, canCreateWebsite } from '@/permissions';
+import { canCreateWebsite } from '@/permissions';
 import { createPixel, getUserPixels } from '@/queries/prisma';
 
 export async function GET(request: Request) {
@@ -29,7 +29,6 @@ export async function POST(request: Request) {
   const schema = z.object({
     name: z.string().max(100),
     slug: z.string().max(100),
-    teamId: z.string().nullable().optional(),
     id: z.uuid().nullable().optional(),
   });
 
@@ -39,9 +38,9 @@ export async function POST(request: Request) {
     return error();
   }
 
-  const { id, name, slug, teamId } = body;
+  const { id, name, slug } = body;
 
-  if ((teamId && !(await canCreateTeamWebsite(auth, teamId))) || !(await canCreateWebsite(auth))) {
+  if (!(await canCreateWebsite(auth))) {
     return unauthorized();
   }
 
@@ -49,12 +48,8 @@ export async function POST(request: Request) {
     id: id ?? uuid(),
     name,
     slug,
-    teamId,
+    userId: auth.user.id,
   };
-
-  if (!teamId) {
-    data.userId = auth.user.id;
-  }
 
   const result = await createPixel(data);
 

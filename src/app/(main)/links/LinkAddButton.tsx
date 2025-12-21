@@ -3,7 +3,7 @@ import { Plus } from '@/components/icons';
 import { DialogButton } from '@/components/input/DialogButton';
 import { LinkEditForm } from './LinkEditForm';
 
-export function LinkAddButton({ teamId }: { teamId?: string }) {
+export function LinkAddButton() {
   const { formatMessage, labels } = useMessages();
 
   return (
@@ -13,7 +13,7 @@ export function LinkAddButton({ teamId }: { teamId?: string }) {
       variant="primary"
       width="600px"
     >
-      {({ close }) => <LinkEditForm teamId={teamId} onClose={close} />}
+      {({ close }) => <LinkEditForm onClose={close} />}
     </DialogButton>
   );
 }

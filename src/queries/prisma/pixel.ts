@@ -36,17 +36,6 @@ export async function getUserPixels(userId: string, filters?: QueryFilters) {
   );
 }
 
-export async function getTeamPixels(teamId: string, filters?: QueryFilters) {
-  return getPixels(
-    {
-      where: {
-        teamId,
-      },
-    },
-    filters,
-  );
-}
-
 export async function createPixel(data: Prisma.PixelUncheckedCreateInput) {
   return prisma.client.pixel.create({ data });
 }

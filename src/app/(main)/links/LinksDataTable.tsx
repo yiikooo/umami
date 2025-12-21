@@ -3,8 +3,7 @@ import { useLinksQuery, useNavigation } from '@/components/hooks';
 import { LinksTable } from './LinksTable';
 
 export function LinksDataTable() {
-  const { teamId } = useNavigation();
-  const query = useLinksQuery({ teamId });
+  const query = useLinksQuery();
 
   return (
     <DataGrid query={query} allowSearch={true} autoFocus={false} allowPaging={true}>

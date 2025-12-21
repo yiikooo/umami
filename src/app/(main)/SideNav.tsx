@@ -45,7 +45,7 @@ export function SideNav(props: SidebarProps) {
   ];
 
   const handleSelect = (id: Key) => {
-    router.push(id === 'user' ? '/websites' : `/teams/${id}/websites`);
+    router.push('/websites');
   };
 
   return (

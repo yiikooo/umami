@@ -3,8 +3,7 @@ import { useNavigation, usePixelsQuery } from '@/components/hooks';
 import { PixelsTable } from './PixelsTable';
 
 export function PixelsDataTable() {
-  const { teamId } = useNavigation();
-  const query = usePixelsQuery({ teamId });
+  const query = usePixelsQuery();
 
   return (
     <DataGrid query={query} allowSearch={true} autoFocus={false} allowPaging={true}>
