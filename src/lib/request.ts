@@ -83,6 +83,23 @@ export async function getJsonBody(request: Request) {
       return undefined;
     }
 
+    // Handle Tencent Cloud SCF / EdgeOne base64 encoded body
+    if (
+      headers['x-scf-is-base64-encoded'] === 'true' ||
+      headers['x-scf-is-base64-encoded'] === 'TRUE'
+    ) {
+      try {
+        console.log('[RequestDebug] Detected Base64 encoded body, decoding...');
+        text = Buffer.from(text, 'base64').toString('utf-8');
+        console.log(
+          '[RequestDebug] Decoded Body Text:',
+          text ? text.substring(0, 1000) : '<empty>',
+        );
+      } catch (e) {
+        console.error('[RequestDebug] Failed to decode base64 body:', e);
+      }
+    }
+
     try {
       return JSON.parse(text);
     } catch (jsonErr) {
