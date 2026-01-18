@@ -45,8 +45,31 @@ export async function parseRequest(
 
 export async function getJsonBody(request: Request) {
   try {
-    return await request.clone().json();
-  } catch {
+    const headers = Object.fromEntries(request.headers);
+    const contentType = headers['content-type'] || headers['Content-Type'];
+
+    // Log headers to debug environment issues
+    console.log('[RequestDebug] Headers:', JSON.stringify(headers));
+    console.log('[RequestDebug] Method:', request.method, 'URL:', request.url);
+
+    // Try to clone first
+    const req = request.clone();
+    const text = await req.text();
+
+    console.log('[RequestDebug] Raw Body Text:', text ? text.substring(0, 1000) : '<empty>');
+
+    if (!text) {
+      return undefined;
+    }
+
+    try {
+      return JSON.parse(text);
+    } catch (jsonErr) {
+      console.error('[RequestDebug] JSON Parse Error:', jsonErr);
+      return undefined;
+    }
+  } catch (e) {
+    console.error('[RequestDebug] Body Read Error:', e);
     return undefined;
   }
 }
