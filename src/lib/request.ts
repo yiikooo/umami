@@ -82,12 +82,34 @@ export async function getJsonBody(request: Request) {
       try {
         console.log('[RequestDebug] Clone was empty, trying original request body...');
         const originalText = await request.text();
+        // If original text is not empty, use it.
+        // Or if it IS empty but we suspect base64 issue, we might want to check buffer?
+        // But request.text() should handle buffer decoding usually.
+        // Let's assume if originalText has content, it's better than empty.
         if (originalText) {
           text = originalText;
           console.log('[RequestDebug] Used original request body as clone was empty.');
         }
       } catch (e) {
         console.error('[RequestDebug] Failed to read text from original request fallback', e);
+      }
+    }
+
+    // EDGE CASE: Even original request might return empty string if the platform already consumed the stream
+    // and didn't implement proper teeing. In some SCF environments, body might be in a different property
+    // attached to the request object by the adapter, but that's non-standard.
+    // However, sometimes req.json() works when req.text() fails due to internal buffering optimization.
+    if (!text && req === request) {
+      try {
+        // Last ditch effort: try .json() directly on the request if text() returned empty
+        // This is rare but possible if text() stream was consumed but json() parser has a separate buffer reference
+        const json = await request.json();
+        if (json) {
+          console.log('[RequestDebug] Recovered body via direct .json() call');
+          return json;
+        }
+      } catch (e) {
+        // ignore
       }
     }
 
