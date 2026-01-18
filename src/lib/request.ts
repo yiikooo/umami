@@ -103,6 +103,21 @@ export async function getJsonBody(request: Request) {
     try {
       return JSON.parse(text);
     } catch (jsonErr) {
+      // Fallback: If JSON parse fails, try to decode base64 anyway (missing header case)
+      try {
+        const decoded = Buffer.from(text, 'base64').toString('utf-8');
+        // Simple check if it looks like JSON to avoid false positives on random strings
+        if (decoded.trim().startsWith('{') || decoded.trim().startsWith('[')) {
+          const json = JSON.parse(decoded);
+          console.log(
+            '[RequestDebug] JSON Parse failed but Base64 decode succeeded (missing header fallback).',
+          );
+          return json;
+        }
+      } catch (fallbackErr) {
+        // Ignore fallback error
+      }
+
       console.error('[RequestDebug] JSON Parse Error:', jsonErr);
       return undefined;
     }
