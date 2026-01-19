@@ -1,6 +1,6 @@
 # Umami (EdgeOne Pages 移植版)
 
-> [!CAUTION]
+> [!WARNING]
 > **EdgeOne Pages 运行时兼容性严重警告**
 >
 > 经排查确认，EdgeOne Pages 平台在 **2025年12月21日** 左右更新了其 Node.js/Next.js 运行时适配器，引入了一个底层缺陷，导致在此日期之后部署的 Umami 实例无法正常工作（主要表现为 API 请求体丢失，导致登录失败等 400 错误）。
@@ -11,6 +11,9 @@
 >
 > **安全提示：**
 > 为了协助官方定位修复该问题，当前代码库已临时植入了大量深度调试日志（Debug Logs）。这些日志可能会在构建日志或运行时输出中暴露敏感信息。**在官方修复此问题并移除本警告之前，建议普通用户暂停部署或更新。**
+
+> [!NOTE]
+> 我们已在 https://github.com/afoim/umami-edgeonepages/tree/main 短暂性修复该问题。由于EO吃POST请求，我们全部换成了GET请求 
 
 ### 漏洞详情与复现报告
 
